@@ -9,9 +9,8 @@ fashion_mnist = tf.keras.datasets.fashion_mnist
 
 # Reduce training dataset
 num_sample = 20000
-sample_idc = np.random.choice(x_train.shape[0], num_sample, replace=False)
-x_train = x_train[sample_idc]
-y_train = y_train[sample_idc]
+x_train = x_train[0:num_sample]
+y_train = y_train[0:num_sample]
 
 # Show a sample image
 sample_idx = 0
@@ -34,27 +33,39 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(8, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D((2, 2)),
     tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(10)
 ])
 
-optimizer = tf.keras.optimizers.SGD(learning_rate=0.05)
-# optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+# optimizer = tf.keras.optimizers.SGD(learning_rate=0.001)
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.01)
 loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, 
               loss=loss,
               metrics=['accuracy'])
 
 # %% Train
-model.fit(x=x_train, y=y_train, batch_size=None, epochs=5, validation_data=(x_test, y_test))
+history = model.fit(x=x_train, y=y_train, batch_size=None, epochs=10, validation_data=(x_test, y_test))
+
+# %% Show history
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Loss')
+plt.legend(['Train', 'Test'])
+plt.show()
+
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.legend(['Train', 'Test'])
+plt.title('Accuracy')
+plt.show()
 
 # %%
 test_idx = 17
 test_img = x_test[test_idx, :]
-# y = model(np.reshape(test_img, (1,)+test_img.shape))
-# y_hat = tf.math.argmax(model(np.reshape(test_img, (1,)+test_img.shape)), axis=1)
 y_hat = model.predict(np.reshape(test_img, (1,)+test_img.shape))
-# print(y_hat.numpy())
-print(np.argmax(y_hat))
-print(y_test[test_idx])
+print('Prediction: {}'.format(np.argmax(y_hat)))
+print('Label: {}'.format(y_test[test_idx]))
 
 # %%
+tf.keras.backend.clear_session()
