@@ -2,14 +2,14 @@
 import numpy as np
 import pickle
 # keras imports
-from keras.models import Sequential
-from keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
-from keras.datasets import fashion_mnist
-from keras.optimizers import Adam
-from keras.preprocessing.image import ImageDataGenerator
-from keras.utils import to_categorical
-from keras import losses
-from keras import backend as K
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.datasets import fashion_mnist
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras import losses
+from tensorflow.keras import backend as K
 
 
 def buildModel():
