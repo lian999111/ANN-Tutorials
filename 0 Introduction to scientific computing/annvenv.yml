@@ -1,0 +1,12 @@
+name: annvenv
+channels:
+  - defaults
+dependencies:
+  - python=3.6.8
+  - numpy=1.15.4
+  - scipy=0.19.1
+  - matplotlib=2.0.2
+  - scikit-learn=0.19.1
+  - tensorflow=1.12.0
+  - keras=2.2.4
+  - spyder=3.3.6
